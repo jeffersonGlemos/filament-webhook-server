@@ -16,7 +16,8 @@ class ModelObserver
         /*
          * Search on the DB that want to receive webhook from this model
          */
-        $search = FilamentWebhookServer::query()->whereJsonContains('events', ['created'])->where('model', '=', $module)->get();
+        $server = app(config('filament-webhook-server.'.FilamentWebhookServer::class));
+        $search = $server::query()->whereJsonContains('events', ['created'])->where('model', '=', $module)->get();
         /*
          * Send to Job Process
          */
@@ -30,7 +31,8 @@ class ModelObserver
         /*
          * Search on the DB that want to receive webhook from this model
          */
-        $search = FilamentWebhookServer::query()->whereJsonContains('events', ['updated'])->where('model', '=', $module)->get();
+        $server = app(config('filament-webhook-server.'.FilamentWebhookServer::class));
+        $search = $server::query()->whereJsonContains('events', ['updated'])->where('model', '=', $module)->get();
         /*
          * Send to Job Process
          */
@@ -44,7 +46,8 @@ class ModelObserver
         /*
          * Search on the DB that want to receive webhook from this model
          */
-        $search = FilamentWebhookServer::query()->whereJsonContains('events', ['deleted'])->where('model', '=', $module)->get();
+        $server = app(config('filament-webhook-server.'.FilamentWebhookServer::class));
+        $search = $server::query()->whereJsonContains('events', ['deleted'])->where('model', '=', $module)->get();
         /*
          * Send to Job Process
          */
@@ -58,7 +61,8 @@ class ModelObserver
         /*
          * Search on the DB that want to receive webhook from this model
          */
-        $search = FilamentWebhookServer::query()->whereJsonContains('events', ['restored'])->where('model', '=', $module)->get();
+        $server = app(config('filament-webhook-server.'.FilamentWebhookServer::class));
+        $search = $server::query()->whereJsonContains('events', ['restored'])->where('model', '=', $module)->get();
         /*
          * Send to Job Process
          */
@@ -72,7 +76,8 @@ class ModelObserver
         /*
          * Search on the DB that want to receive webhook from this model
          */
-        $search = FilamentWebhookServer::query()->whereJsonContains('events', ['forceDeleted'])->where('model', '=', $module)->get();
+        $server = app(config('filament-webhook-server.'.FilamentWebhookServer::class));
+        $search = $server::query()->whereJsonContains('events', ['forceDeleted'])->where('model', '=', $module)->get();
         /*
          * Send to Job Process
          */

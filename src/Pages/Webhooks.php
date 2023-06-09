@@ -55,13 +55,13 @@ class Webhooks extends Page implements HasTable
     {
         return [
             Action::make('Add Webhook')
-                ->button()
-                ->label(
-                    __(
-                        'filament-webhook-server::default.pages.button.add_new_webhook'
-                    )
-                )
-                ->action('openCreateModal'),
+                  ->button()
+                  ->label(
+                      __(
+                          'filament-webhook-server::default.pages.button.add_new_webhook'
+                      )
+                  )
+                  ->action('openCreateModal'),
         ];
     }
 
@@ -73,7 +73,9 @@ class Webhooks extends Page implements HasTable
     public function create(): void
     {
         $data = $this->form->getState();
-        $webhookModel = new FilamentWebhookServer();
+
+        $server = app(config('filament-webhook-server.' . FilamentWebhookServer::class));
+        $webhookModel = new $server();
         $webhookModel->name = $data['name'];
         $webhookModel->description = $data['description'];
         $webhookModel->url = $data['url'];
@@ -90,45 +92,48 @@ class Webhooks extends Page implements HasTable
 
     protected function getFormSchema(): array
     {
-        return [Grid::make(1)->schema(
-            [
-                TextInput::make('name')->minLength(2)->maxLength(255)->required(),
-                Textarea::make('description')->required(),
-                TextInput::make('url')->label('Url to Notify')->url()->required(),
-                Select::make('method')->options(
-                    [
-                        'post' => 'Post',
-                        'get' => 'Get',
-                    ]
-                )->required(),
-                Select::make('model')->options($this->getAllModelNames())->required(),
-                KeyValue::make('header'),
-                Radio::make('data_option')->options(
-                    [
-                        'all' => 'All Model Data',
-                        'summary' => 'Summary',
-                        'custom' => 'Custom',
-                    ]
-                )->descriptions(
-                    [
-                        'all' => 'All Data of the event triggered',
-                        'summary' => 'Push only the ID if the record that trigger an event and its timestamp',
-                        'custom' => 'Only data defined on model`s toWebhookPayload method',
-                    ]
-                )->columns(2)->required(),
-                CheckboxList::make('events')
-                    ->options([
-                        'created' => 'Created',
-                        'updated' => 'Updated',
-                        'deleted' => 'Deleted',
-                        'restored' => 'Restored',
-                        'forceDeleted' => 'Force Deleted',
-                    ])
-                        ->columns(2),
-                Radio::make('verifySsl')->label('Verify SSL?')->boolean()->inline()->required(),
+        return [
+            Grid::make(1)->schema(
+                [
+                    TextInput::make('name')->minLength(2)->maxLength(255)->required(),
+                    Textarea::make('description')->required(),
+                    TextInput::make('url')->label('Url to Notify')->url()->required(),
+                    Select::make('method')->options(
+                        [
+                            'post' => 'Post',
+                            'get'  => 'Get',
+                        ]
+                    )->required(),
+                    Select::make('model')->options($this->getAllModelNames())->required(),
+                    KeyValue::make('header'),
+                    Radio::make('data_option')->options(
+                        [
+                            'all'     => 'All Model Data',
+                            'summary' => 'Summary',
+                            'custom'  => 'Custom',
+                        ]
+                    )->descriptions(
+                        [
+                            'all'     => 'All Data of the event triggered',
+                            'summary' => 'Push only the ID if the record that trigger an event and its timestamp',
+                            'custom'  => 'Only data defined on model`s toWebhookPayload method',
+                        ]
+                    )->columns(2)->required(),
+                    CheckboxList::make('events')
+                                ->options(
+                                    [
+                                        'created'      => 'Created',
+                                        'updated'      => 'Updated',
+                                        'deleted'      => 'Deleted',
+                                        'restored'     => 'Restored',
+                                        'forceDeleted' => 'Force Deleted',
+                                    ]
+                                )
+                                ->columns(2),
+                    Radio::make('verifySsl')->label('Verify SSL?')->boolean()->inline()->required(),
 
-            ]
-        ),
+                ]
+            ),
         ];
     }
 
@@ -139,45 +144,48 @@ class Webhooks extends Page implements HasTable
 
     protected function getTableViewForm(): array
     {
-        return [Grid::make(1)->schema(
-            [
-                TextInput::make('name')->minLength(2)->maxLength(255)->required(),
-                Textarea::make('description')->required(),
-                TextInput::make('url')->label('Url to Notify')->url()->required(),
-                Select::make('method')->options(
-                    [
-                        'post' => 'Post',
-                        'get' => 'Get',
-                    ]
-                )->required(),
-                TextInput::make('model')->required(),
-                KeyValue::make('header'),
-                Radio::make('data_option')->options(
-                    [
-                        'all' => 'All Model Data',
-                        'summary' => 'Summary',
-                        'custom' => 'Custom',
-                    ]
-                )->descriptions(
-                    [
-                        'all' => 'All Data of the event triggered',
-                        'summary' => 'Push only the ID if the record that trigger an event and its timestamp',
-                        'custom' => 'Only data defined on model`s toWebhookPayload method',
-                    ]
-                )->columns(2)->required(),
-                CheckboxList::make('events')
-                    ->options([
-                        'created' => 'Created',
-                        'updated' => 'Updated',
-                        'deleted' => 'Deleted',
-                        'restored' => 'Restored',
-                        'forceDeleted' => 'Force Deleted',
-                    ])
-                    ->columns(2),
-                Radio::make('verifySsl')->label('Verify SSL?')->boolean()->inline()->required(),
+        return [
+            Grid::make(1)->schema(
+                [
+                    TextInput::make('name')->minLength(2)->maxLength(255)->required(),
+                    Textarea::make('description')->required(),
+                    TextInput::make('url')->label('Url to Notify')->url()->required(),
+                    Select::make('method')->options(
+                        [
+                            'post' => 'Post',
+                            'get'  => 'Get',
+                        ]
+                    )->required(),
+                    TextInput::make('model')->required(),
+                    KeyValue::make('header'),
+                    Radio::make('data_option')->options(
+                        [
+                            'all'     => 'All Model Data',
+                            'summary' => 'Summary',
+                            'custom'  => 'Custom',
+                        ]
+                    )->descriptions(
+                        [
+                            'all'     => 'All Data of the event triggered',
+                            'summary' => 'Push only the ID if the record that trigger an event and its timestamp',
+                            'custom'  => 'Only data defined on model`s toWebhookPayload method',
+                        ]
+                    )->columns(2)->required(),
+                    CheckboxList::make('events')
+                                ->options(
+                                    [
+                                        'created'      => 'Created',
+                                        'updated'      => 'Updated',
+                                        'deleted'      => 'Deleted',
+                                        'restored'     => 'Restored',
+                                        'forceDeleted' => 'Force Deleted',
+                                    ]
+                                )
+                                ->columns(2),
+                    Radio::make('verifySsl')->label('Verify SSL?')->boolean()->inline()->required(),
 
-            ]
-        ),
+                ]
+            ),
         ];
     }
 
@@ -185,31 +193,40 @@ class Webhooks extends Page implements HasTable
     {
         return [
             Tables\Actions\Action::make('View Logs')
-                ->visible(fn (): bool => config('filament-webhook-server.webhook.keep_history'))
-                ->icon('heroicon-o-document-text')
-                ->color('success')
-                ->url(fn (FilamentWebhookServer $record): string => WebhookHistory::getUrl(['client_id' => $record->id])),
+                                 ->visible(fn(): bool => config('filament-webhook-server.webhook.keep_history'))
+                                 ->icon('heroicon-o-document-text')
+                                 ->color('success')
+                                 ->url(
+                                     fn(FilamentWebhookServer $record): string => WebhookHistory::getUrl(
+                                         ['client_id' => $record->id]
+                                     )
+                                 ),
             Tables\Actions\ViewAction::make('view')
-                ->mountUsing(fn (ComponentContainer $form, FilamentWebhookServer $record) => $form->fill([
-                    'name' => $record->name,
-                    'description' => $record->description,
-                    'url' => $record->url,
-                    'method' => $record->method,
-                    'model' => $record->model,
-                    'header' => $record->header,
-                    'data_option' => $record->data_option,
-                    'verifySsl' => $record->verifySsl,
-                    'events' => $record->events,
-                ]))
-                ->form($this->getTableViewForm()),
+                                     ->mountUsing(
+                                         fn(ComponentContainer $form, FilamentWebhookServer $record) => $form->fill(
+                                             [
+                                                 'name'        => $record->name,
+                                                 'description' => $record->description,
+                                                 'url'         => $record->url,
+                                                 'method'      => $record->method,
+                                                 'model'       => $record->model,
+                                                 'header'      => $record->header,
+                                                 'data_option' => $record->data_option,
+                                                 'verifySsl'   => $record->verifySsl,
+                                                 'events'      => $record->events,
+                                             ]
+                                         )
+                                     )
+                                     ->form($this->getTableViewForm()),
             Tables\Actions\DeleteAction::make('delete')
-                ->requiresConfirmation(),
+                                       ->requiresConfirmation(),
         ];
     }
 
     protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
     {
-        return FilamentWebhookServer::query();
+        $server = app(config('filament-webhook-server.' . FilamentWebhookServer::class));
+        return $server::query();
     }
 
     protected function getTableColumns(): array
@@ -218,7 +235,7 @@ class Webhooks extends Page implements HasTable
             TextColumn::make('name'),
             TextColumn::make('description'),
             TextColumn::make('model')
-                ->label('Module'),
+                      ->label('Module'),
             TextColumn::make('url'),
             BooleanColumn::make('verifySsl'),
             Tables\Columns\TagsColumn::make('events')->separator(','),
@@ -250,14 +267,14 @@ class Webhooks extends Page implements HasTable
     {
         return [
             Tables\Actions\Action::make('create')
-                ->label('Create post')
-                ->button()
-                ->label(
-                    __(
-                        'filament-webhook-server::default.pages.button.add_new_webhook'
-                    )
-                )
-                ->action('openCreateModal'),
+                                 ->label('Create post')
+                                 ->button()
+                                 ->label(
+                                     __(
+                                         'filament-webhook-server::default.pages.button.add_new_webhook'
+                                     )
+                                 )
+                                 ->action('openCreateModal'),
         ];
     }
 

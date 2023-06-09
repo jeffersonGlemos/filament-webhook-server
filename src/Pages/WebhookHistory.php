@@ -38,7 +38,8 @@ class WebhookHistory extends Page implements HasTable
 
     protected function getTableQuery(): Builder
     {
-        return FilamentWebhookServerHistory::query()->where('webhook_client', '=', $this->webhookClient_Id);
+        $server = app(config('filament-webhook-server.'.FilamentWebhookServerHistory::class));
+        return $server::query()->where('webhook_client', '=', $this->webhookClient_Id);
     }
 
     protected function getTableColumns(): array
