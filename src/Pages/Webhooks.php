@@ -26,7 +26,7 @@ class Webhooks extends Page implements HasTable
     use InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-status-online';
-
+    protected static bool $shouldRegisterNavigation = false;
     protected static string $view = 'filament-webhook-server::pages.webhooks';
 
     public ?array $data = ['header' => null];
