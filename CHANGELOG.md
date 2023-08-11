@@ -2,6 +2,29 @@
 
 All notable changes to `filament-webhook-server` will be documented in this file.
 
+## 1.2.2 - 2023-07-06
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/MarJose123/filament-webhook-server/pull/11
+- Update WebhookHistory.php by @MarJose123 in https://github.com/MarJose123/filament-webhook-server/pull/12
+
+**Full Changelog**: https://github.com/MarJose123/filament-webhook-server/compare/1.2.1...1.2.2
+
+## 1.2.1 - 2023-06-11
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/MarJose123/filament-webhook-server/pull/7
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/MarJose123/filament-webhook-server/pull/8
+- Add pages configurable by @a21ns1g4ts in https://github.com/MarJose123/filament-webhook-server/pull/9
+
+### New Contributors
+
+- @a21ns1g4ts made their first contribution in https://github.com/MarJose123/filament-webhook-server/pull/9
+
+**Full Changelog**: https://github.com/MarJose123/filament-webhook-server/compare/1.2.0...1.2.1
+
 ## 1.2.0 - 2023-04-14
 
 ### What's Changed
@@ -38,6 +61,8 @@ return [
 ];
 
 
+
+
 ```
 - Republish and run the migrations with:
 
@@ -45,9 +70,13 @@ return [
 php artisan vendor:publish --tag="filament-webhook-server-migrations"
 
 
+
+
 ```
 ```bash
 php artisan migrate
+
+
 
 
 ```
